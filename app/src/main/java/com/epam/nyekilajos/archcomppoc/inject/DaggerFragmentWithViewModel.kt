@@ -6,7 +6,7 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
-open class DaggerFragmentWithViewModel : DaggerFragment() {
+abstract class DaggerFragmentWithViewModel : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

@@ -8,6 +8,7 @@ import com.epam.nyekilajos.archcomppoc.MainActivity
 import com.epam.nyekilajos.archcomppoc.network.CallHandler
 import com.epam.nyekilajos.archcomppoc.network.CallHandlerImpl
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
+import com.epam.nyekilajos.archcomppoc.ui.createaddress.CreateAddressItemFragment
 import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel
 import dagger.*
 import dagger.android.AndroidInjector
@@ -41,6 +42,9 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAddressListFragmentInjector(): AddressListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreateAddressItemFragmentInjector(): CreateAddressItemFragment
 }
 
 @Module

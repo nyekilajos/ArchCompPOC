@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/addressListFragment">
+
+    <fragment
+        android:id="@+id/addressListFragment"
+        android:name="com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment"
+        android:label="AddressListFragment"
+        tools:layout="@layout/address_list_fragment">
+        <action
+            android:id="@+id/action_addressListFragment_to_createAddressItemFragment"
+            app:destination="@id/createAddressItemFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAddressItemFragment"
+        android:name="com.epam.nyekilajos.archcomppoc.ui.createaddress.CreateAddressItemFragment"
+        android:label="CreateAddressItemFragment"
+        tools:layout="@layout/create_address_item_fragment"/>
+</navigation>

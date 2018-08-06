@@ -1,6 +1,8 @@
 package com.epam.nyekilajos.archcomppoc.util
 
+import android.view.View
 import androidx.databinding.BindingAdapter
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.epam.nyekilajos.archcomppoc.ui.common.BindableAdapter
 
@@ -29,4 +31,9 @@ fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, adapter: RecyclerV
             }
         }
     }
+}
+
+@BindingAdapter("navigateToOnClick")
+fun setNavigateToOnClick(view: View, navigateToOnClick: Int) {
+    view.setOnClickListener(Navigation.createNavigateOnClickListener(navigateToOnClick))
 }

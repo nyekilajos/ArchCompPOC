@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ArchCompPoc</string>
+
+    <string name="ip_address">IP Address</string>
+    <string name="Port">Port</string>
+    <string name="address_details">Address details</string>
 </resources>

@@ -7,6 +7,8 @@
 
         <import type="com.epam.nyekilajos.archcomppoc.util.UiUtils" />
 
+        <import type="androidx.navigation.Navigation" />
+
         <variable
             name="adapter"
             type="com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressAdapter" />
@@ -21,13 +23,14 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/adresslist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".ui.adresslist.AddressListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/address_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:adapter="@{adapter}"
@@ -35,6 +38,17 @@
             app:itemDecoration="@{UiUtils.createDividerItemDecoration(context)}"
             app:layoutManager="@{UiUtils.createLinearLayoutManager(context)}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_plus"
+            android:tint="@color/white"
+            app:elevation="8dp"
+            app:layout_anchor="@id/address_list_recycler_view"
+            app:layout_anchorGravity="bottom | right"
+            app:navigateToOnClick="@{@id/action_addressListFragment_to_createAddressItemFragment}"
+            app:useCompatPadding="true" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
