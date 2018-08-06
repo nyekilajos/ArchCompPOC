@@ -8,7 +8,7 @@ import com.epam.nyekilajos.archcomppoc.MainActivity
 import com.epam.nyekilajos.archcomppoc.network.CallHandler
 import com.epam.nyekilajos.archcomppoc.network.CallHandlerImpl
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
-import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListViewModel
+import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel
 import dagger.*
 import dagger.android.AndroidInjector
 import dagger.android.ContributesAndroidInjector

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.epam.nyekilajos.archcomppoc.util.UiUtils" />
+
+        <variable
+            name="adapter"
+            type="com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressAdapter" />
+
+        <variable
+            name="context"
+            type="android.content.Context" />
+
+        <variable
+            name="viewmodel"
+            type="com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/adresslist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.adresslist.AddressListFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:adapter="@{adapter}"
+            app:data="@{viewmodel.addressItems}"
+            app:itemDecoration="@{UiUtils.createDividerItemDecoration(context)}"
+            app:layoutManager="@{UiUtils.createLinearLayoutManager(context)}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
