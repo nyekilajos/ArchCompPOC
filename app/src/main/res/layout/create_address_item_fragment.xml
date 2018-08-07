@@ -41,6 +41,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:hint="@string/ip_address"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:lines="1"
                 android:text="@={vm.ipAddress}" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -56,8 +59,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:hint="@string/Port"
+                android:imeOptions="actionDone"
                 android:inputType="number"
-                android:text="@={vm.portText}" />
+                android:lines="1"
+                android:text="@={vm.portText}"
+                app:onImeActionDone="@{() -> fragment.createAddress()}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

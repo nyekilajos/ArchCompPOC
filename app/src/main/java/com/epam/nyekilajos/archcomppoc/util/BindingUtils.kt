@@ -1,6 +1,8 @@
 package com.epam.nyekilajos.archcomppoc.util
 
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -36,4 +38,14 @@ fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, adapter: RecyclerV
 @BindingAdapter("navigateToOnClick")
 fun setNavigateToOnClick(view: View, navigateToOnClick: Int) {
     view.setOnClickListener(Navigation.createNavigateOnClickListener(navigateToOnClick))
+}
+
+@BindingAdapter("onImeActionDone")
+fun setOnImeActionDone(editText: EditText, onImeActionDone: Runnable) {
+    editText.setOnEditorActionListener { _, actionId, _ ->
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            onImeActionDone.run()
+        }
+        false
+    }
 }
