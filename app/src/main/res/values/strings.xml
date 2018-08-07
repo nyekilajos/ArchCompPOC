@@ -4,4 +4,8 @@
     <string name="ip_address">IP Address</string>
     <string name="Port">Port</string>
     <string name="address_details">Address details</string>
+    <string name="create">Create</string>
+
+    <string name="address_list">Address List</string>
+    <string name="create_address">Create Address</string>
 </resources>

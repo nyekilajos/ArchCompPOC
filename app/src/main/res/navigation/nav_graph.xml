@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/addressListFragment">
 
     <fragment
         android:id="@+id/addressListFragment"
         android:name="com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment"
-        android:label="AddressListFragment"
+        android:label="@string/address_list"
         tools:layout="@layout/address_list_fragment">
         <action
             android:id="@+id/action_addressListFragment_to_createAddressItemFragment"
@@ -20,6 +21,6 @@
     <fragment
         android:id="@+id/createAddressItemFragment"
         android:name="com.epam.nyekilajos.archcomppoc.ui.createaddress.CreateAddressItemFragment"
-        android:label="CreateAddressItemFragment"
-        tools:layout="@layout/create_address_item_fragment"/>
+        android:label="@string/create_address"
+        tools:layout="@layout/create_address_item_fragment" />
 </navigation>

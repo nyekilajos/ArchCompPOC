@@ -46,9 +46,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:hint="@string/Port" />
+                android:hint="@string/Port"
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_large"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/create"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintTop_toBottomOf="@id/port_input" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
