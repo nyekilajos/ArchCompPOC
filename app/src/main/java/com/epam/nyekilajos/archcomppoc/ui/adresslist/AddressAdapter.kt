@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.epam.nyekilajos.archcomppoc.databinding.AddressItemBinding
+import com.epam.nyekilajos.archcomppoc.repository.AddressItem
 import com.epam.nyekilajos.archcomppoc.ui.common.BindableAdapter
-import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressItem
 
 class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>(), BindableAdapter<List<AddressItem>> {
 

@@ -1,27 +1,37 @@
 package com.epam.nyekilajos.archcomppoc.viewmodel.addresslist
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.epam.nyekilajos.archcomppoc.network.CallHandler
+import com.epam.nyekilajos.archcomppoc.repository.AddressItem
+import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AddressListViewModel @Inject constructor(val callHandler: CallHandler) : ViewModel() {
+class AddressListViewModel @Inject constructor(val repository: AddressRepository) : ViewModel() {
 
     val addressItems: MutableLiveData<List<AddressItem>> = MutableLiveData()
 
+    private var disposable: Disposable? = null
+
     init {
-        addressItems.value = listOf(
-                AddressItem("12.23.34.45", 1234),
-                AddressItem("23.34.45.56", 2345),
-                AddressItem("34.45.56.67", 3456),
-                AddressItem("45.56.67.78", 4567),
-                AddressItem("56.67.78.89", 5678))
+        disposable = repository
+                .fetchAddressList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = { addressItems.value = it },
+                        onError = { Log.e(AddressListViewModel::class.java.simpleName, it.localizedMessage) }
+                )
     }
 
     override fun onCleared() {
         super.onCleared()
         addressItems.value = emptyList()
+        disposable?.dispose()
+        disposable = null
     }
 }
-
-data class AddressItem(val ipAddress: String, val port: Int)

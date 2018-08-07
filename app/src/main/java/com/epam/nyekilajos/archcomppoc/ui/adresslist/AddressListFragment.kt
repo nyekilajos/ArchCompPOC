@@ -23,11 +23,6 @@ class AddressListFragment : DaggerFragmentWithViewModel() {
                 .root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.callHandler.callAddress("google.com", 8888)
-    }
-
     companion object {
         fun newInstance() = AddressListFragment()
     }

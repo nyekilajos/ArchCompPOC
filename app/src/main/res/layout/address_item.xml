@@ -7,13 +7,13 @@
 
         <variable
             name="item"
-            type="com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressItem" />
+            type="com.epam.nyekilajos.archcomppoc.repository.AddressItem" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/defult_row_height"
+        android:layout_height="@dimen/deafult_row_height"
         android:paddingLeft="@dimen/side_padding"
         android:paddingRight="@dimen/side_padding">
 

@@ -7,9 +7,12 @@ import com.epam.nyekilajos.archcomppoc.ArchCompApplication
 import com.epam.nyekilajos.archcomppoc.MainActivity
 import com.epam.nyekilajos.archcomppoc.network.CallHandler
 import com.epam.nyekilajos.archcomppoc.network.CallHandlerImpl
+import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
+import com.epam.nyekilajos.archcomppoc.repository.InMemoryAddressListCache
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
 import com.epam.nyekilajos.archcomppoc.ui.createaddress.CreateAddressItemFragment
 import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel
+import com.epam.nyekilajos.archcomppoc.viewmodel.createaddress.CreateAddressViewModel
 import dagger.*
 import dagger.android.AndroidInjector
 import dagger.android.ContributesAndroidInjector
@@ -19,15 +22,25 @@ import javax.inject.Singleton
 import kotlin.reflect.KClass
 
 @Module
-class ApplicationModule {
+abstract class ApplicationModule {
 
-    @Provides
-    fun providesContext(application: ArchCompApplication): Context {
-        return application.applicationContext
+    @Module
+    companion object {
+
+        @JvmStatic
+        @Provides
+        fun providesContext(application: ArchCompApplication): Context {
+            return application.applicationContext
+        }
     }
 
-    @Provides
-    fun providesCallHandler(): CallHandler = CallHandlerImpl()
+    @Binds
+    abstract fun bindsCallHandler(callHandlerImpl: CallHandlerImpl): CallHandler
+
+    @Singleton
+    @Binds
+    abstract fun bindsRepository(inMemoryAddressListCache: InMemoryAddressListCache): AddressRepository
+
 }
 
 @Module
@@ -57,6 +70,11 @@ abstract class ViewModelBuilder {
     @IntoMap
     @ViewModelKey(AddressListViewModel::class)
     abstract fun bindAddressListViewModel(viewModel: AddressListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateAddressViewModel::class)
+    abstract fun bindCreateAddressViewModel(viewModel: CreateAddressViewModel): ViewModel
 }
 
 @Singleton
