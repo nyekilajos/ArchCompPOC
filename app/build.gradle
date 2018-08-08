@@ -31,18 +31,32 @@ android {
     }
 }
 
+kapt {
+    arguments {
+        arg("room.schemaLocation", "app/room/schema")
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha1'
+    implementation 'androidx.core:core-ktx:1.0.0-beta01'
+
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0-beta01'
-    implementation 'androidx.core:core-ktx:1.0.0-beta01'
 
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     implementation "com.google.dagger:dagger:2.16"
     implementation 'com.google.dagger:dagger-android:2.16'
@@ -57,4 +71,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$nav_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 }
