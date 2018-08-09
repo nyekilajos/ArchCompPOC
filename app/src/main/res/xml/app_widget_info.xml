@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.epam.nyekilajos.archcomppoc.ui.appwidget.ConfigureWidgetActivity"
+    android:initialLayout="@layout/app_widget"
+    android:minWidth="180dp"
+    android:minHeight="40dp"
+    android:previewImage="@drawable/ic_launcher_background"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="5000"
+    android:widgetCategory="home_screen" />

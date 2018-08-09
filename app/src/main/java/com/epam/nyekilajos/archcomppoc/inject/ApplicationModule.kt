@@ -10,9 +10,14 @@ import com.epam.nyekilajos.archcomppoc.network.CallHandler
 import com.epam.nyekilajos.archcomppoc.network.CallHandlerImpl
 import com.epam.nyekilajos.archcomppoc.repository.AddressDataBase
 import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
+import com.epam.nyekilajos.archcomppoc.repository.MockWidgetProperties
+import com.epam.nyekilajos.archcomppoc.repository.WidgetProperties
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
+import com.epam.nyekilajos.archcomppoc.ui.appwidget.CallAddressAppWidgetProvider
+import com.epam.nyekilajos.archcomppoc.ui.appwidget.ConfigureWidgetActivity
 import com.epam.nyekilajos.archcomppoc.ui.createaddress.CreateAddressItemFragment
 import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel
+import com.epam.nyekilajos.archcomppoc.viewmodel.appwidget.AppWidgetConfigViewModel
 import com.epam.nyekilajos.archcomppoc.viewmodel.createaddress.CreateAddressViewModel
 import dagger.*
 import dagger.android.AndroidInjector
@@ -41,6 +46,9 @@ abstract class ApplicationModule {
     }
 
     @Binds
+    abstract fun bindsWidgetProperties(mockWidgetProperties: MockWidgetProperties): WidgetProperties
+
+    @Binds
     abstract fun bindsCallHandler(callHandlerImpl: CallHandlerImpl): CallHandler
 
 }
@@ -50,6 +58,9 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun contributeMainActivityInjector(): MainActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeConfigureWidgetActivityInjector(): ConfigureWidgetActivity
 }
 
 @Module
@@ -60,6 +71,13 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCreateAddressItemFragmentInjector(): CreateAddressItemFragment
+}
+
+@Module
+abstract class BroadcastReceiverModule {
+
+    @ContributesAndroidInjector
+    abstract fun contributeCallAddressAppWidgetProviderInjector(): CallAddressAppWidgetProvider
 }
 
 @Module
@@ -77,10 +95,22 @@ abstract class ViewModelBuilder {
     @IntoMap
     @ViewModelKey(CreateAddressViewModel::class)
     abstract fun bindCreateAddressViewModel(viewModel: CreateAddressViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AppWidgetConfigViewModel::class)
+    abstract fun bindAppWidgetConfigViewModel(viewModel: AppWidgetConfigViewModel): ViewModel
 }
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, ApplicationModule::class, ActivityModule::class, FragmentModule::class, ViewModelBuilder::class])
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    ApplicationModule::class,
+    ActivityModule::class,
+    FragmentModule::class,
+    BroadcastReceiverModule::class,
+    ViewModelBuilder::class
+])
 interface AppComponent : AndroidInjector<ArchCompApplication> {
 
     @Component.Builder

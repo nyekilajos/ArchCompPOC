@@ -11,7 +11,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AddressListViewModel @Inject constructor(val repository: AddressRepository) : ViewModel() {
+open class AddressListViewModel @Inject constructor(val repository: AddressRepository) : ViewModel() {
 
     val addressItems: MutableLiveData<List<AddressItem>> = MutableLiveData()
 
