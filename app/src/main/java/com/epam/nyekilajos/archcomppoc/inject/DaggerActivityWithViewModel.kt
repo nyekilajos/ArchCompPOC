@@ -15,7 +15,10 @@ abstract class DaggerActivityWithViewModel : DaggerAppCompatActivity() {
 
 inline fun <reified T : ViewModel> daggerViewModel(activity: DaggerActivityWithViewModel) = DaggerViewModelActivityDelegate(activity, T::class)
 
-class DaggerViewModelActivityDelegate<T : ViewModel>(private val activity: DaggerActivityWithViewModel, private val kClass: KClass<T>) : DefaultLifecycleObserver {
+class DaggerViewModelActivityDelegate<T : ViewModel>(
+        private val activity: DaggerActivityWithViewModel,
+        private val kClass: KClass<T>
+) : DefaultLifecycleObserver {
 
     private var viewModel: T? = null
 

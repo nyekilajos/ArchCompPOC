@@ -22,14 +22,16 @@ class BindableSpinnerAdapter<T : TitleProvider>(
     fun getItemPosition(item: T): Int = items.indexOf(item)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return (convertView?.tag as? SelectedViewHolder ?: SelectedViewHolder(LayoutInflater.from(context).inflate(selectedLayoutId, parent, false)))
+        return (convertView?.tag as? SelectedViewHolder
+                ?: SelectedViewHolder(LayoutInflater.from(context).inflate(selectedLayoutId, parent, false)))
                 .apply { textView.text = items[position].getTitle() }
                 .also { convertView?.tag = it }
                 .view
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return (convertView?.tag as? DropDownViewHolder ?: DropDownViewHolder(LayoutInflater.from(context).inflate(dropDownLayoutId, parent, false)))
+        return (convertView?.tag as? DropDownViewHolder
+                ?: DropDownViewHolder(LayoutInflater.from(context).inflate(dropDownLayoutId, parent, false)))
                 .apply { textView.text = items[position].getTitle() }
                 .also { convertView?.tag = it }
                 .view
@@ -40,15 +42,14 @@ class BindableSpinnerAdapter<T : TitleProvider>(
     override fun getItemId(position: Int): Long = getItem(position).hashCode().toLong()
 
     override fun getCount(): Int = items.size
-
 }
 
-private class SelectedViewHolder(val view: View) {
+private data class SelectedViewHolder(val view: View) {
 
     val textView: TextView = view.findViewById(R.id.selected_dropdown_text)
 }
 
-private class DropDownViewHolder(val view: View) {
+private data class DropDownViewHolder(val view: View) {
 
     val textView: TextView = view.findViewById(R.id.dropdown_text)
 }

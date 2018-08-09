@@ -30,13 +30,10 @@ fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, adapter: RecyclerV
     if (adapter != null) {
         recyclerView.adapter = adapter
     }
-
     if (layoutManager != null) {
         recyclerView.layoutManager = layoutManager
-        if (data != null) {
-            if (recyclerView.adapter is BindableAdapter<*>) {
-                (recyclerView.adapter as BindableAdapter<T>).setData(data)
-            }
+        if (data != null && recyclerView.adapter is BindableAdapter<*>) {
+            (recyclerView.adapter as BindableAdapter<T>).setData(data)
         }
     }
 }
@@ -59,7 +56,9 @@ fun setOnImeActionDone(editText: EditText, onImeActionDone: Runnable) {
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter(value = ["selectedItem", "selectedItemAttrChanged"], requireAll = false)
 fun setSelectedItem(spinner: Spinner, item: Any?, inverseBindingListener: InverseBindingListener?) {
-    (item as? TitleProvider)?.let { (spinner.adapter as? BindableSpinnerAdapter<TitleProvider>)?.getItemPosition(it)?.let { selection -> spinner.setSelection(selection) } }
+    (item as? TitleProvider)?.let {
+        (spinner.adapter as? BindableSpinnerAdapter<TitleProvider>)?.getItemPosition(it)?.let { selection -> spinner.setSelection(selection) }
+    }
     if (spinner.onItemSelectedListener == null) {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {

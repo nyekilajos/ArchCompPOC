@@ -9,16 +9,13 @@ class DaggerAwareViewModelFactory @Inject constructor(
         private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val creator: Provider<out ViewModel> = creators[modelClass]
-                ?: creators.entries.find { modelClass.isAssignableFrom(it.key) }?.value
+        return (creators[modelClass]
+                ?: creators.entries
+                        .find { modelClass.isAssignableFrom(it.key) }
+                        ?.value)
+                ?.get() as? T
                 ?: throw IllegalArgumentException("Unknown model class $modelClass")
-
-        try {
-            @Suppress("UNCHECKED_CAST")
-            return creator.get() as T
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
     }
 }

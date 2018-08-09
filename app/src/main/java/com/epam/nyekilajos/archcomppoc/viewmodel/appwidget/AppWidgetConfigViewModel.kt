@@ -9,7 +9,10 @@ import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewMode
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class AppWidgetConfigViewModel @Inject constructor(private val widgetProperties: WidgetProperties, repository: AddressRepository) : AddressListViewModel(repository) {
+class AppWidgetConfigViewModel @Inject constructor(
+        private val widgetProperties: WidgetProperties,
+        repository: AddressRepository
+) : AddressListViewModel(repository) {
 
     val selectedAddressItem: MediatorLiveData<AddressItem> = MediatorLiveData()
 

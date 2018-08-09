@@ -16,7 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
-
 class ConfigureWidgetActivity : DaggerActivityWithViewModel() {
 
     private val viewModel: AppWidgetConfigViewModel by daggerViewModel(this)
