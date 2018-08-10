@@ -6,46 +6,38 @@
     android:layout_margin="@dimen/padding_small"
     android:background="@drawable/widget_background"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_medium">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/padding_medium">
-
-        <TextView
-            android:id="@+id/address_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/padding_small"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_extra_large"
-            tools:text="12.23.34.45:8888" />
-
-        <ImageView
-            android:id="@+id/widget_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="@dimen/padding_small"
-            android:src="@drawable/ic_settings" />
-
-    </LinearLayout>
-
-    <Button
+    <ImageView
         android:id="@+id/call_button"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:background="@drawable/call_button"
-        android:fontFamily="sans-serif-medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/call"
         android:gravity="center"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_send"
         android:text="@string/call"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_extra_large" />
+        android:tint="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/address_text"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@android:color/primary_text_light"
+        tools:text="12.23.34.45:8888" />
+
+    <ImageView
+        android:id="@+id/widget_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/configure"
+        android:focusable="true"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_settings"
+        android:tint="@color/colorAccent" />
 
 </LinearLayout>

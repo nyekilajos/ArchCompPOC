@@ -21,20 +21,19 @@
         android:paddingRight="@dimen/side_padding">
 
         <TextView
-            android:id="@+id/address_deatils_title"
+            android:id="@+id/address_details_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_medium"
-            android:text="@string/address_details"
-            android:textSize="@dimen/text_size_large" />
+            android:text="@string/address_details" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ip_address_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/address_deatils_title">
+            app:layout_constraintTop_toBottomOf="@id/address_details_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -68,13 +67,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            style="@style/TextAppearance.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_large"
-            android:fontFamily="sans-serif-medium"
             android:onClick="@{() -> fragment.createAddress()}"
             android:text="@string/create"
-            android:textSize="@dimen/text_size_large"
+            android:textColor="@android:color/primary_text_dark"
             app:layout_constraintTop_toBottomOf="@id/port_input" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
