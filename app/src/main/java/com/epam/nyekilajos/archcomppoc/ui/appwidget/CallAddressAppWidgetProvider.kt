@@ -36,7 +36,7 @@ class CallAddressAppWidgetProvider : AppWidgetProvider() {
                     .subscribeBy(
                             onSuccess = { preference ->
                                 context?.let {
-                                    setupRemoteViews(context, preference.addressItem)
+                                    setupRemoteViews(context, preference.addressItem, appWidgetId)
                                 }
                             }
                     )
@@ -44,9 +44,9 @@ class CallAddressAppWidgetProvider : AppWidgetProvider() {
     }
 }
 
-fun setupRemoteViews(context: Context, addressItem: AddressItem) {
+fun setupRemoteViews(context: Context, addressItem: AddressItem, appWidgetId: Int) {
     val appWidgetManager = AppWidgetManager.getInstance(context)
-    val pendingIntent = PendingIntent.getService(
+    val callPendingIntent = PendingIntent.getService(
             context,
             0,
             Intent(context, CallHandlerService::class.java).apply {
@@ -55,8 +55,18 @@ fun setupRemoteViews(context: Context, addressItem: AddressItem) {
             },
             PendingIntent.FLAG_UPDATE_CURRENT)
 
+    val settingsPendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            Intent(context, ConfigureWidgetActivity::class.java).apply {
+                action = AppWidgetManager.ACTION_APPWIDGET_CONFIGURE
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
     val views = RemoteViews(context.packageName, R.layout.app_widget).apply {
-        setOnClickPendingIntent(R.id.call_button, pendingIntent)
+        setOnClickPendingIntent(R.id.call_button, callPendingIntent)
+        setOnClickPendingIntent(R.id.widget_settings, settingsPendingIntent)
         setTextViewText(R.id.address_text, "${addressItem.ipAddress}:${addressItem.port}")
     }
     appWidgetManager.updateAppWidget(ComponentName(context, CallAddressAppWidgetProvider::class.java), views)

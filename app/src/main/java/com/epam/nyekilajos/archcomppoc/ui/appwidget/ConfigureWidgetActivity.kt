@@ -48,7 +48,7 @@ class ConfigureWidgetActivity : DaggerActivityWithViewModel() {
                             .subscribeBy(
                                     onComplete = {
                                         viewModel.selectedAddressItem.value?.let {
-                                            setupRemoteViews(this, it)
+                                            setupRemoteViews(this, it, appWidgetId)
                                         }
 
                                         setResult(
