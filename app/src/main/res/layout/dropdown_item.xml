@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dropdown_text"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/deafult_row_height"
+    android:layout_height="@dimen/default_row_height"
     android:fontFamily="sans-serif-condensed"
     android:gravity="center_vertical"
     android:orientation="vertical"

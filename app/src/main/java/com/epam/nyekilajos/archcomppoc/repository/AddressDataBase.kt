@@ -1,6 +1,7 @@
 package com.epam.nyekilajos.archcomppoc.repository
 
 import androidx.room.*
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -26,12 +27,20 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository {
         }
     }
 
-    override fun storeAddress(addressItem: AddressItem) {
-        Schedulers.io().scheduleDirect {
+    override fun storeAddress(addressItem: AddressItem): Completable {
+        return Completable.fromCallable {
             addressList += addressItem
             subject.onNext(addressList)
             addressDao().insert(addressItem)
-        }
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun removeAddress(addressItem: AddressItem): Completable {
+        return Completable.fromCallable {
+            addressList -= addressItem
+            subject.onNext(addressList)
+            addressDao().delete(addressItem)
+        }.subscribeOn(Schedulers.io())
     }
 }
 

@@ -36,6 +36,7 @@
             app:adapter="@{adapter}"
             app:data="@{viewmodel.addressItems}"
             app:itemDecoration="@{UiUtils.createDividerItemDecoration(context)}"
+            app:itemTouchCallback="@{adapter.itemTouchCallback}"
             app:layoutManager="@{UiUtils.createLinearLayoutManager(context)}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

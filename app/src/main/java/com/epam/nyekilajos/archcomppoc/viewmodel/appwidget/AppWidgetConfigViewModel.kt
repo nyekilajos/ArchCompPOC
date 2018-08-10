@@ -5,14 +5,14 @@ import com.epam.nyekilajos.archcomppoc.repository.AddressItem
 import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
 import com.epam.nyekilajos.archcomppoc.repository.SelectedAddressItem
 import com.epam.nyekilajos.archcomppoc.repository.WidgetProperties
-import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel
+import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AbstractAddressViewModel
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class AppWidgetConfigViewModel @Inject constructor(
         private val widgetProperties: WidgetProperties,
         repository: AddressRepository
-) : AddressListViewModel(repository) {
+) : AbstractAddressViewModel(repository) {
 
     val selectedAddressItem: MediatorLiveData<AddressItem> = MediatorLiveData()
 

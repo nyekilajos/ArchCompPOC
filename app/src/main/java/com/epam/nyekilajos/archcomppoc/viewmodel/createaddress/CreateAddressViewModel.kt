@@ -17,7 +17,7 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
     fun createAddress() {
         ipAddress.value?.let { ip ->
             portText.value?.let {
-                repository.storeAddress(AddressItem(ip, it.toInt()))
+                repository.storeAddress(AddressItem(ip, it.toInt())).subscribe()
             } ?: notifyError(Errors.INVALID_PORT) ?: 0
         } ?: notifyError<String>(Errors.INVALID_IP_ADDRESS)
     }

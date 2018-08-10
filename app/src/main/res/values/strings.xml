@@ -11,4 +11,6 @@
 
     <string name="call">Call</string>
     <string name="configure_widget_title">Select target address</string>
+
+    <string name="delete">Delete</string>
 </resources>

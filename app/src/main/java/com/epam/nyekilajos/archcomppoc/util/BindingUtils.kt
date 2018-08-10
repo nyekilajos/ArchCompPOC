@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.epam.nyekilajos.archcomppoc.ui.common.BindableAdapter
 import com.epam.nyekilajos.archcomppoc.ui.common.BindableSpinnerAdapter
@@ -68,10 +69,14 @@ fun setSelectedItem(spinner: Spinner, item: Any?, inverseBindingListener: Invers
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 inverseBindingListener?.onChange()
             }
-
         }
     }
 }
 
 @InverseBindingAdapter(attribute = "selectedItem", event = "selectedItemAttrChanged")
 fun captureValue(spinner: Spinner): Any? = spinner.selectedItem
+
+@BindingAdapter(value = "itemTouchCallback")
+fun setItemTouchCallback(recyclerView: RecyclerView, itemTouchCallback: ItemTouchHelper.Callback) {
+    ItemTouchHelper(itemTouchCallback).attachToRecyclerView(recyclerView)
+}

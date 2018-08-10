@@ -16,14 +16,10 @@ class AddressListFragment : DaggerFragmentWithViewModel() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return AddressListFragmentBinding.inflate(inflater, container, false)
                 .apply {
-                    adapter = AddressAdapter()
+                    adapter = AddressAdapter(this@AddressListFragment.context!!, viewModel)
                     context = this@AddressListFragment.context
                     viewmodel = viewModel
                 }
                 .root
-    }
-
-    companion object {
-        fun newInstance() = AddressListFragment()
     }
 }
