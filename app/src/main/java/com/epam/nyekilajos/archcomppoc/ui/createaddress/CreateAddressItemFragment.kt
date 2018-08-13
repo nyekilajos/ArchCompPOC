@@ -4,12 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.epam.nyekilajos.archcomppoc.R
 import com.epam.nyekilajos.archcomppoc.databinding.CreateAddressItemFragmentBinding
 import com.epam.nyekilajos.archcomppoc.inject.DaggerFragmentWithViewModel
 import com.epam.nyekilajos.archcomppoc.inject.daggerViewModel
 import com.epam.nyekilajos.archcomppoc.viewmodel.createaddress.CreateAddressViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 
 class CreateAddressItemFragment : DaggerFragmentWithViewModel() {
 
@@ -29,14 +35,26 @@ class CreateAddressItemFragment : DaggerFragmentWithViewModel() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
+        viewModel.error.observe(viewLifecycleOwner, Observer<CreateAddressViewModel.Errors> { error ->
+            when (error) {
+                CreateAddressViewModel.Errors.INVALID_IP_ADDRESS -> getString(R.string.invalid_ip_error)
+                CreateAddressViewModel.Errors.INVALID_PORT -> getString(R.string.invalid_port_error)
+                else -> null
+            }?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+
+        })
     }
 
     fun createAddress() {
         viewModel.createAddress()
-        navController.navigateUp()
-    }
-
-    companion object {
-        fun newInstance() = CreateAddressItemFragment()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onComplete = {
+                            navController.navigateUp()
+                        },
+                        onError = {
+                            //NOP
+                        })
     }
 }

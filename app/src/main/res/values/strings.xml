@@ -14,4 +14,7 @@
     <string name="configure_widget_title">Select target address</string>
 
     <string name="delete">Delete</string>
+
+    <string name="invalid_ip_error">Invalid IP address. Please provide a valid one.</string>
+    <string name="invalid_port_error">Invalid port. Please provide a valid one.</string>
 </resources>
