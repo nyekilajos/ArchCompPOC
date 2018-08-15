@@ -7,7 +7,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-@Database(entities = [AddressItem::class], version = 1)
+@Database(entities = [AddressItem::class], version = 2)
+@TypeConverters(ProtocolConverter::class)
 abstract class AddressDataBase : RoomDatabase(), AddressRepository {
 
     private val addressList: MutableList<AddressItem> = mutableListOf()
@@ -55,4 +56,15 @@ abstract class AddressDao {
 
     @Delete
     abstract fun delete(addressItem: AddressItem)
+}
+
+object ProtocolConverter {
+
+    @JvmStatic
+    @TypeConverter
+    fun toProtocol(protocolName: String): Protocol? = Protocol.valueOf(protocolName)
+
+    @JvmStatic
+    @TypeConverter
+    fun toString(protocol: Protocol): String? = protocol.name
 }

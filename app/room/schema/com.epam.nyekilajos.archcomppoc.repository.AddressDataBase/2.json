@@ -1,0 +1,47 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "c2c45a012fcdfe57787c9b94bf3fa845",
+    "entities": [
+      {
+        "tableName": "addressItems",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`protocol` TEXT NOT NULL, `ip_address` TEXT NOT NULL, `port` INTEGER NOT NULL, PRIMARY KEY(`protocol`, `ip_address`, `port`))",
+        "fields": [
+          {
+            "fieldPath": "protocol",
+            "columnName": "protocol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ipAddress",
+            "columnName": "ip_address",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "port",
+            "columnName": "port",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "protocol",
+            "ip_address",
+            "port"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c2c45a012fcdfe57787c9b94bf3fa845\")"
+    ]
+  }
+}

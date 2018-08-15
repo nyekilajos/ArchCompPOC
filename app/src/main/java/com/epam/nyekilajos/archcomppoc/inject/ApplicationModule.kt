@@ -8,10 +8,7 @@ import com.epam.nyekilajos.archcomppoc.ArchCompApplication
 import com.epam.nyekilajos.archcomppoc.MainActivity
 import com.epam.nyekilajos.archcomppoc.network.CallHandler
 import com.epam.nyekilajos.archcomppoc.network.CallHandlerImpl
-import com.epam.nyekilajos.archcomppoc.repository.AddressDataBase
-import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
-import com.epam.nyekilajos.archcomppoc.repository.MockWidgetProperties
-import com.epam.nyekilajos.archcomppoc.repository.WidgetProperties
+import com.epam.nyekilajos.archcomppoc.repository.*
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
 import com.epam.nyekilajos.archcomppoc.ui.appwidget.CallAddressAppWidgetProvider
 import com.epam.nyekilajos.archcomppoc.ui.appwidget.ConfigureWidgetActivity
@@ -41,7 +38,9 @@ abstract class ApplicationModule {
         @JvmStatic
         @Provides
         fun providesAddressRepository(context: Context): AddressRepository {
-            return Room.databaseBuilder(context, AddressDataBase::class.java, ADDRESS_ITEM_DATABASE_NAME).build()
+            return Room.databaseBuilder(context, AddressDataBase::class.java, ADDRESS_ITEM_DATABASE_NAME)
+                    .addMigrations(MIGRATION_1_2)
+                    .build()
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.epam.nyekilajos.archcomppoc.repository.AddressItem
 import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
+import com.epam.nyekilajos.archcomppoc.repository.Protocol
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,6 +13,8 @@ import javax.inject.Inject
 
 class CreateAddressViewModel @Inject constructor(private val repository: AddressRepository) : ViewModel() {
 
+    val protocol: MutableLiveData<Protocol> = MutableLiveData()
+
     val ipAddress: MutableLiveData<String> = MutableLiveData()
 
     val portText: MutableLiveData<String> = MutableLiveData()
@@ -19,15 +22,15 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
     val error: MutableLiveData<Errors> = MutableLiveData<Errors>().apply { postValue(Errors.NO_ERROR) }
 
     fun createAddress(): Completable {
-        return validateValues()
+        return validateValuesAndCreate()
                 .flatMapCompletable {
-                    repository.storeAddress(AddressItem(it.first, it.second))
+                    repository.storeAddress(it)
                 }
     }
 
     @Suppress("TooGenericExceptionCaught")
-    private fun validateValues(): Single<Pair<String, Int>> {
-        return Single.create<Pair<String, Int>> { emitter ->
+    private fun validateValuesAndCreate(): Single<AddressItem> {
+        return Single.create<AddressItem> { emitter ->
             val ip = try {
                 validateIpAddress(ipAddress.value)
             } catch (ex: Exception) {
@@ -46,7 +49,7 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
             }
             if (ip != null && port != null) {
                 notifyError(Errors.NO_ERROR)
-                emitter.onSuccess(ip to port)
+                emitter.onSuccess(AddressItem(protocol.value ?: Protocol.HTTP, ip, port))
             }
         }
     }

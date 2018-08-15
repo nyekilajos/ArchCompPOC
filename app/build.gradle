@@ -29,6 +29,9 @@ android {
     dataBinding {
         enabled = true
     }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/room/schema".toString())
+    }
 }
 
 kapt {
@@ -70,7 +73,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation "androidx.room:room-testing:$room_version"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$nav_version"
-    testImplementation "androidx.room:room-testing:$room_version"
 }
