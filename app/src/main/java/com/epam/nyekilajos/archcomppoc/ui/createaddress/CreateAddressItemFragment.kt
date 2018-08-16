@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.epam.nyekilajos.archcomppoc.R
 import com.epam.nyekilajos.archcomppoc.databinding.CreateAddressItemFragmentBinding
 import com.epam.nyekilajos.archcomppoc.inject.DaggerFragmentWithViewModel
 import com.epam.nyekilajos.archcomppoc.inject.daggerViewModel
+import com.epam.nyekilajos.archcomppoc.repository.Protocol
+import com.epam.nyekilajos.archcomppoc.ui.common.BindableSpinnerAdapter
 import com.epam.nyekilajos.archcomppoc.viewmodel.createaddress.CreateAddressViewModel
+import com.epam.nyekilajos.archcomppoc.viewmodel.createaddress.InvalidAddressException
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -23,10 +25,19 @@ class CreateAddressItemFragment : DaggerFragmentWithViewModel() {
 
     private lateinit var navController: NavController
 
+    private lateinit var addressListAdapter: BindableSpinnerAdapter<Protocol>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        addressListAdapter = BindableSpinnerAdapter(
+                context!!,
+                R.layout.selected_protocol_picker_item,
+                R.layout.dropdown_protocol_picker_item,
+                Protocol.values().toList()
+        )
         return CreateAddressItemFragmentBinding.inflate(inflater, container, false)
                 .apply {
                     fragment = this@CreateAddressItemFragment
+                    adapter = addressListAdapter
                     vm = viewModel
                 }
                 .root
@@ -35,14 +46,6 @@ class CreateAddressItemFragment : DaggerFragmentWithViewModel() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
-        viewModel.error.observe(viewLifecycleOwner, Observer<CreateAddressViewModel.Errors> { error ->
-            when (error) {
-                CreateAddressViewModel.Errors.INVALID_IP_ADDRESS -> getString(R.string.invalid_ip_error)
-                CreateAddressViewModel.Errors.INVALID_PORT -> getString(R.string.invalid_port_error)
-                else -> null
-            }?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
-
-        })
     }
 
     fun createAddress() {
@@ -53,8 +56,16 @@ class CreateAddressItemFragment : DaggerFragmentWithViewModel() {
                         onComplete = {
                             navController.navigateUp()
                         },
-                        onError = {
-                            //NOP
+                        onError = { throwable ->
+                            if (throwable is InvalidAddressException) {
+                                val message = when (throwable.error) {
+                                    CreateAddressViewModel.Errors.INVALID_IP_ADDRESS -> getString(R.string.invalid_ip_error)
+                                    CreateAddressViewModel.Errors.INVALID_PORT -> getString(R.string.invalid_port_error)
+                                    CreateAddressViewModel.Errors.INVALID_NAME -> getString(R.string.invalid_name_error)
+                                    else -> null
+                                } ?: throwable.localizedMessage
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                            }
                         })
     }
 }

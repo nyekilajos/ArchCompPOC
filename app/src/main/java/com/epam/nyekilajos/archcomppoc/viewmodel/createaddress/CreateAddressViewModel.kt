@@ -1,27 +1,25 @@
 package com.epam.nyekilajos.archcomppoc.viewmodel.createaddress
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.epam.nyekilajos.archcomppoc.repository.AddressItem
 import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
 import com.epam.nyekilajos.archcomppoc.repository.Protocol
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import java.net.InetAddress
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class CreateAddressViewModel @Inject constructor(private val repository: AddressRepository) : ViewModel() {
 
-    val name: MutableLiveData<String> = MutableLiveData()
+    val name: MediatorLiveData<String> = MediatorLiveData()
 
-    val protocol: MutableLiveData<Protocol> = MutableLiveData()
+    val protocol: MediatorLiveData<Protocol> = MediatorLiveData()
 
-    val ipAddress: MutableLiveData<String> = MutableLiveData()
+    val ipAddress: MediatorLiveData<String> = MediatorLiveData()
 
-    val portText: MutableLiveData<String> = MutableLiveData()
-
-    val error: MutableLiveData<Errors> = MutableLiveData<Errors>().apply { postValue(Errors.NO_ERROR) }
+    val portText: MediatorLiveData<String> = MediatorLiveData()
 
     fun createAddress(): Completable {
         return validateValuesAndCreate()
@@ -33,41 +31,34 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
     @Suppress("TooGenericExceptionCaught")
     private fun validateValuesAndCreate(): Single<AddressItem> {
         return Single.create<AddressItem> { emitter ->
-            val ip = try {
-                validateIpAddress(ipAddress.value)
-            } catch (ex: Exception) {
-                notifyError(Errors.INVALID_IP_ADDRESS)
-                emitter.onError(ex)
-                null
-            }
-            val port: Int? = ip?.let {
-                try {
-                    validatePort(portText.value)
-                } catch (ex: Exception) {
-                    notifyError(Errors.INVALID_PORT)
-                    emitter.onError(ex)
-                    null
+            try {
+                val validName = if (name.value?.isNotEmpty() == true) {
+                    name.value!!
+                } else {
+                    throw InvalidAddressException("Name should not be empty", Errors.INVALID_NAME)
                 }
-            }
-            if (ip != null && port != null) {
-                notifyError(Errors.NO_ERROR)
-                emitter.onSuccess(AddressItem(name.value ?: "", protocol.value ?: Protocol.HTTP, ip, port))
+                val ip = validateIpAddress(ipAddress.value)
+                val port = validatePort(portText.value)
+
+                emitter.onSuccess(AddressItem(validName, protocol.value ?: Protocol.HTTP, ip, port))
+            } catch (ex: UnknownHostException) {
+                emitter.onError(InvalidAddressException(ex.localizedMessage, Errors.INVALID_IP_ADDRESS))
+            } catch (ex: Exception) {
+                emitter.onError(ex)
             }
         }
     }
 
-    private fun notifyError(errorType: Errors) {
-        AndroidSchedulers.mainThread().scheduleDirect { error.value = errorType }
-    }
-
-    enum class Errors { INVALID_IP_ADDRESS, INVALID_PORT, NO_ERROR }
+    enum class Errors { INVALID_NAME, INVALID_IP_ADDRESS, INVALID_PORT, NO_ERROR }
 }
 
 private fun validateIpAddress(ip: String?): String {
     InetAddress.getByName(ip)
-    return ip ?: throw IllegalAccessException("IP address should not be null")
+    return ip ?: throw InvalidAddressException("IP address should not be null", CreateAddressViewModel.Errors.INVALID_IP_ADDRESS)
 }
 
 private fun validatePort(port: String?): Int {
-    return port?.toInt() ?: throw IllegalAccessException("Port should not be null")
+    return port?.toInt() ?: throw InvalidAddressException("Port should not be null", CreateAddressViewModel.Errors.INVALID_PORT)
 }
+
+class InvalidAddressException(message: String, val error: CreateAddressViewModel.Errors) : IllegalArgumentException(message)

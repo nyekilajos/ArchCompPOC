@@ -58,7 +58,11 @@ fun setOnImeActionDone(editText: EditText, onImeActionDone: Runnable) {
 @BindingAdapter(value = ["selectedItem", "selectedItemAttrChanged"], requireAll = false)
 fun setSelectedItem(spinner: Spinner, item: Any?, inverseBindingListener: InverseBindingListener?) {
     (item as? TitleProvider)?.let {
-        (spinner.adapter as? BindableSpinnerAdapter<TitleProvider>)?.getItemPosition(it)?.let { selection -> spinner.setSelection(selection) }
+        (spinner.adapter as? BindableSpinnerAdapter<TitleProvider>)?.getItemPosition(it)?.let { selection ->
+            if (spinner.selectedItemPosition != selection) {
+                spinner.setSelection(selection)
+            }
+        }
     }
     if (spinner.onItemSelectedListener == null) {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

@@ -20,14 +20,30 @@
         android:text="@string/call"
         android:tint="@color/colorAccent" />
 
-    <TextView
-        android:id="@+id/address_text"
-        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@android:color/primary_text_light"
-        tools:text="12.23.34.45:8888" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/address_name"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light"
+            tools:text="My address 1" />
+
+        <TextView
+            android:id="@+id/address_text"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light"
+            tools:text="12.23.34.45:8888" />
+
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/widget_settings"

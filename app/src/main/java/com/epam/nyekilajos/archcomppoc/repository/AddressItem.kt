@@ -21,9 +21,11 @@ data class AddressItem(
         @ColumnInfo(name = "port")
         val port: Int) : TitleProvider {
 
-    override fun getTitle(): String = "$name (${protocol.displayName}$ipAddress:$port)"
+    override fun getTitle(): String = name
 }
 
-enum class Protocol(val displayName: String) {
-    HTTP("http://"), HTTPS("https://")
+enum class Protocol(val displayName: String) : TitleProvider {
+    HTTP("http://"), HTTPS("https://");
+
+    override fun getTitle(): String = name
 }

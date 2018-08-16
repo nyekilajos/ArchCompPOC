@@ -67,7 +67,8 @@ fun setupRemoteViews(context: Context, addressItem: AddressItem, appWidgetId: In
     val views = RemoteViews(context.packageName, R.layout.app_widget).apply {
         setOnClickPendingIntent(R.id.call_button, callPendingIntent)
         setOnClickPendingIntent(R.id.widget_settings, settingsPendingIntent)
-        setTextViewText(R.id.address_text, "${addressItem.ipAddress}:${addressItem.port}")
+        setTextViewText(R.id.address_name, addressItem.name)
+        setTextViewText(R.id.address_text, "${addressItem.protocol.displayName}${addressItem.ipAddress}:${addressItem.port}")
     }
     appWidgetManager.updateAppWidget(ComponentName(context, CallAddressAppWidgetProvider::class.java), views)
 }

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="fragment"
             type="com.epam.nyekilajos.archcomppoc.ui.createaddress.CreateAddressItemFragment" />
+
+        <variable
+            name="adapter"
+            type="android.widget.SpinnerAdapter" />
 
         <variable
             name="vm"
@@ -30,15 +35,43 @@
             android:text="@string/address_details" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ip_address_input"
+            android:id="@+id/name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/address_details_title">
 
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
+                android:hint="@string/address_name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:lines="1"
+                android:text="@={vm.name}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/protocol_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            app:adapter="@{adapter}"
+            app:layout_constraintTop_toBottomOf="@id/name_input"
+            app:selectedItem="@={vm.protocol}"
+            tools:listitem="@layout/selected_protocol_picker_item" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ip_address_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/protocol_picker">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/ip_address"
                 android:imeOptions="actionNext"
                 android:inputType="text"
@@ -54,9 +87,9 @@
             app:layout_constraintTop_toBottomOf="@id/ip_address_input">
 
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
                 android:hint="@string/Port"
                 android:imeOptions="actionDone"
                 android:inputType="number"

@@ -7,6 +7,5 @@
     android:layout_height="@dimen/default_single_row_height"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/padding_medium"
-    android:paddingRight="@dimen/padding_medium"
-    tools:text="12.34.45.56:8888" />
+    android:paddingLeft="4dp"
+    tools:text="HTTPS" />

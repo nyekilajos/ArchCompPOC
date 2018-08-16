@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ArchCompPoc</string>
 
+    <string name="address_name">Name</string>
     <string name="ip_address">IP Address</string>
     <string name="Port">Port</string>
     <string name="address_details">Address details</string>
@@ -17,4 +18,5 @@
 
     <string name="invalid_ip_error">Invalid IP address. Please provide a valid one.</string>
     <string name="invalid_port_error">Invalid port. Please provide a valid one.</string>
+    <string name="invalid_name_error">Name should not be empty</string>
 </resources>

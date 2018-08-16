@@ -4,7 +4,7 @@
     android:id="@+id/dropdown_text"
     style="@style/TextAppearance.MaterialComponents.Body1"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/default_row_height"
+    android:layout_height="@dimen/default_single_row_height"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="@dimen/padding_medium"

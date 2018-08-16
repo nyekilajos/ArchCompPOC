@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/selected_dropdown_text"
+    android:id="@+id/dropdown_text"
     style="@style/TextAppearance.MaterialComponents.Body1"
     android:layout_width="match_parent"
     android:layout_height="@dimen/default_single_row_height"
@@ -9,4 +9,4 @@
     android:orientation="vertical"
     android:paddingLeft="@dimen/padding_medium"
     android:paddingRight="@dimen/padding_medium"
-    tools:text="12.34.45.56:8888" />
+    tools:text="HTTPS" />

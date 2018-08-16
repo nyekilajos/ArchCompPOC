@@ -4,7 +4,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_row_height">
+        android:layout_height="@dimen/default_two_lines_row_height">
 
         <include
             android:id="@+id/background"
