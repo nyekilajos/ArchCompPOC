@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-@Database(entities = [AddressItem::class], version = 2)
+@Database(entities = [AddressItem::class], version = 3)
 @TypeConverters(ProtocolConverter::class)
 abstract class AddressDataBase : RoomDatabase(), AddressRepository {
 

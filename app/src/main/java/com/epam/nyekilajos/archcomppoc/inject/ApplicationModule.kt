@@ -39,7 +39,7 @@ abstract class ApplicationModule {
         @Provides
         fun providesAddressRepository(context: Context): AddressRepository {
             return Room.databaseBuilder(context, AddressDataBase::class.java, ADDRESS_ITEM_DATABASE_NAME)
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build()
         }
     }

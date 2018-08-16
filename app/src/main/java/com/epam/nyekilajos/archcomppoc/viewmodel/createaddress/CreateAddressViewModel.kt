@@ -13,6 +13,8 @@ import javax.inject.Inject
 
 class CreateAddressViewModel @Inject constructor(private val repository: AddressRepository) : ViewModel() {
 
+    val name: MutableLiveData<String> = MutableLiveData()
+
     val protocol: MutableLiveData<Protocol> = MutableLiveData()
 
     val ipAddress: MutableLiveData<String> = MutableLiveData()
@@ -49,7 +51,7 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
             }
             if (ip != null && port != null) {
                 notifyError(Errors.NO_ERROR)
-                emitter.onSuccess(AddressItem(protocol.value ?: Protocol.HTTP, ip, port))
+                emitter.onSuccess(AddressItem(name.value ?: "", protocol.value ?: Protocol.HTTP, ip, port))
             }
         }
     }

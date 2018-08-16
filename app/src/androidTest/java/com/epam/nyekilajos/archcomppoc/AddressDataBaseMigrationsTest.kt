@@ -7,6 +7,7 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.epam.nyekilajos.archcomppoc.repository.AddressDataBase
 import com.epam.nyekilajos.archcomppoc.repository.MIGRATION_1_2
+import com.epam.nyekilajos.archcomppoc.repository.MIGRATION_2_3
 import com.epam.nyekilajos.archcomppoc.repository.Protocol
 import org.junit.Assert
 import org.junit.Rule
@@ -34,6 +35,31 @@ class AddressDataBaseMigrationsTest {
         newVersion.query("SELECT * FROM addressItems", null).run {
             moveToFirst()
             Assert.assertTrue(getString(getColumnIndex("protocol")) == Protocol.HTTP.name)
+            Assert.assertTrue(getString(getColumnIndex("ip_address")) == TEST_IP)
+            Assert.assertTrue(getInt(getColumnIndex("port")) == TEST_PORT)
+            close()
+        }
+    }
+
+    @Test
+    fun migrate2To3() {
+        val oldVersion: SupportSQLiteDatabase = helper.createDatabase(TEST_DB, 2)
+
+        oldVersion.execSQL("INSERT INTO addressItems (protocol, ip_address, port) VALUES ('${Protocol.HTTP.name}', '$TEST_IP', $TEST_PORT)")
+        oldVersion.execSQL("INSERT INTO addressItems (protocol, ip_address, port) VALUES ('${Protocol.HTTPS.name}', '$TEST_IP', $TEST_PORT)")
+
+        val newVersion = helper.runMigrationsAndValidate(TEST_DB, 3, true, MIGRATION_2_3)
+
+        newVersion.query("SELECT * FROM addressItems", null).run {
+            moveToFirst()
+            Assert.assertTrue(getString(getColumnIndex("name")) == "${Protocol.HTTP.name} $TEST_IP:$TEST_PORT")
+            Assert.assertTrue(getString(getColumnIndex("protocol")) == Protocol.HTTP.name)
+            Assert.assertTrue(getString(getColumnIndex("ip_address")) == TEST_IP)
+            Assert.assertTrue(getInt(getColumnIndex("port")) == TEST_PORT)
+
+            moveToNext()
+            Assert.assertTrue(getString(getColumnIndex("name")) == "${Protocol.HTTPS.name} $TEST_IP:$TEST_PORT")
+            Assert.assertTrue(getString(getColumnIndex("protocol")) == Protocol.HTTPS.name)
             Assert.assertTrue(getString(getColumnIndex("ip_address")) == TEST_IP)
             Assert.assertTrue(getInt(getColumnIndex("port")) == TEST_PORT)
             close()

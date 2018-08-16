@@ -2,10 +2,15 @@ package com.epam.nyekilajos.archcomppoc.repository
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.epam.nyekilajos.archcomppoc.ui.common.TitleProvider
 
-@Entity(primaryKeys = ["protocol", "ip_address", "port"], tableName = "addressItems")
+@Entity(tableName = "addressItems")
 data class AddressItem(
+
+        @PrimaryKey
+        @ColumnInfo(name = "name")
+        val name: String,
 
         @ColumnInfo(name = "protocol")
         val protocol: Protocol,
@@ -16,7 +21,7 @@ data class AddressItem(
         @ColumnInfo(name = "port")
         val port: Int) : TitleProvider {
 
-    override fun getTitle(): String = "$protocol$ipAddress:$port"
+    override fun getTitle(): String = "$name (${protocol.displayName}$ipAddress:$port)"
 }
 
 enum class Protocol(val displayName: String) {
