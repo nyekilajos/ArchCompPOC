@@ -25,7 +25,7 @@ class BindableSpinnerAdapter<T : TitleProvider>(
         return (convertView?.tag as? SelectedViewHolder
                 ?: SelectedViewHolder(LayoutInflater.from(context).inflate(selectedLayoutId, parent, false)))
                 .apply { textView.text = items[position].getTitle() }
-                .also { convertView?.tag = it }
+                .also { it.view.tag = it }
                 .view
     }
 
@@ -33,7 +33,7 @@ class BindableSpinnerAdapter<T : TitleProvider>(
         return (convertView?.tag as? DropDownViewHolder
                 ?: DropDownViewHolder(LayoutInflater.from(context).inflate(dropDownLayoutId, parent, false)))
                 .apply { textView.text = items[position].getTitle() }
-                .also { convertView?.tag = it }
+                .also { it.view.tag = it }
                 .view
     }
 
