@@ -7,7 +7,7 @@
     android:background="@drawable/widget_background"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="@dimen/padding_medium">
+    android:padding="@dimen/padding_small">
 
     <ImageView
         android:id="@+id/call_button"

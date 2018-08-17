@@ -18,8 +18,7 @@ class AppWidgetConfigViewModel @Inject constructor(
 
     fun saveWidgetSettings(appWidgetId: Int): Completable {
         return selectedAddressItem.value
-                ?.let { it.ipAddress + it.port }
-                ?.let { widgetProperties.insert(SelectedAddressItem(appWidgetId, it)) }
+                ?.let { widgetProperties.insert(SelectedAddressItem(appWidgetId, it.name)) }
                 ?: Completable.error(IllegalArgumentException("Invalid address to save."))
     }
 }

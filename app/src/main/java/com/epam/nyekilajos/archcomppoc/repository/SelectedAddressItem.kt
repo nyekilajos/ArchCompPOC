@@ -1,11 +1,17 @@
 package com.epam.nyekilajos.archcomppoc.repository
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(foreignKeys = [ForeignKey(entity = AddressItem::class, parentColumns = ["id"], childColumns = ["address_id"])], tableName = "selectedAddressItems")
+@Entity(
+        foreignKeys = [ForeignKey(
+                entity = AddressItem::class,
+                parentColumns = ["name"],
+                childColumns = ["address_id"],
+                onDelete = ForeignKey.CASCADE
+        )],
+        indices = [Index("address_id")],
+        tableName = "selectedAddressItems"
+)
 data class SelectedAddressItem(
 
         @PrimaryKey

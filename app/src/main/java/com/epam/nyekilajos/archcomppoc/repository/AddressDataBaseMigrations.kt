@@ -32,3 +32,13 @@ val MIGRATION_2_3: Migration = object : Migration(2, 3) {
         }
     }
 }
+
+val MIGRATION_3_4: Migration = object : Migration(3, 4) {
+
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.run {
+            execSQL("CREATE TABLE IF NOT EXISTS selectedAddressItems (id INTEGER NOT NULL, address_id TEXT NOT NULL, PRIMARY KEY(id), FOREIGN KEY(address_id) REFERENCES addressItems(name) ON UPDATE NO ACTION ON DELETE CASCADE )")
+            execSQL("CREATE  INDEX index_selectedAddressItems_address_id ON selectedAddressItems (address_id)")
+        }
+    }
+}

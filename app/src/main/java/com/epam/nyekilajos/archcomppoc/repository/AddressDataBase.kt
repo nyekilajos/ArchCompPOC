@@ -2,20 +2,23 @@ package com.epam.nyekilajos.archcomppoc.repository
 
 import androidx.room.*
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-@Database(entities = [AddressItem::class], version = 3)
+@Database(entities = [AddressItem::class, SelectedAddressItem::class], version = 4)
 @TypeConverters(ProtocolConverter::class)
-abstract class AddressDataBase : RoomDatabase(), AddressRepository {
+abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProperties {
 
     private val addressList: MutableList<AddressItem> = mutableListOf()
 
     private val subject: Subject<List<AddressItem>> = BehaviorSubject.createDefault(emptyList())
 
     abstract fun addressDao(): AddressDao
+
+    abstract fun widgetPropertiesDao(): WidgetPropertiesDao
 
     override fun fetchAddressList(): Observable<List<AddressItem>> = subject.hide().also { loadFromDb() }
 
@@ -43,6 +46,26 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository {
             addressDao().delete(addressItem)
         }.subscribeOn(Schedulers.io())
     }
+
+    override fun getWidgetSettings(appWidgetId: Int): Maybe<AddressItem> {
+        return Maybe.fromCallable {
+            addressDao().getAllAddressByName(widgetPropertiesDao().getAddressNameForId(appWidgetId))
+        }
+    }
+
+    override fun insert(selectedAddressItem: SelectedAddressItem): Completable {
+        return Completable.fromCallable {
+            widgetPropertiesDao().insert(selectedAddressItem)
+        }
+    }
+
+    override fun delete(appWidgetId: Int): Completable {
+        return Completable.fromCallable {
+            widgetPropertiesDao().run {
+                delete(getSelectedAddressItemForId(appWidgetId))
+            }
+        }
+    }
 }
 
 @Dao
@@ -51,11 +74,30 @@ abstract class AddressDao {
     @Query("SELECT * FROM addressItems")
     abstract fun getAllAddressItems(): List<AddressItem>
 
+    @Query("SELECT * FROM addressItems WHERE name = :name")
+    abstract fun getAllAddressByName(name: String): AddressItem
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(addressItem: AddressItem)
 
     @Delete
     abstract fun delete(addressItem: AddressItem)
+}
+
+@Dao
+abstract class WidgetPropertiesDao {
+
+    @Query("SELECT address_id FROM selectedAddressItems WHERE id = :appWidgetId")
+    abstract fun getAddressNameForId(appWidgetId: Int): String
+
+    @Query("SELECT * FROM selectedAddressItems WHERE id = :appWidgetId")
+    abstract fun getSelectedAddressItemForId(appWidgetId: Int): SelectedAddressItem
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(selectedAddressItem: SelectedAddressItem)
+
+    @Delete
+    abstract fun delete(selectedAddressItem: SelectedAddressItem)
 }
 
 object ProtocolConverter {

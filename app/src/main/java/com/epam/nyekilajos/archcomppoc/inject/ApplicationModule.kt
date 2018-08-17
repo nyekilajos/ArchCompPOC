@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.epam.nyekilajos.archcomppoc.ArchCompApplication
 import com.epam.nyekilajos.archcomppoc.MainActivity
-import com.epam.nyekilajos.archcomppoc.network.CallHandler
-import com.epam.nyekilajos.archcomppoc.network.CallHandlerImpl
 import com.epam.nyekilajos.archcomppoc.repository.*
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
 import com.epam.nyekilajos.archcomppoc.ui.appwidget.CallAddressAppWidgetProvider
@@ -37,19 +35,20 @@ abstract class ApplicationModule {
         @Singleton
         @JvmStatic
         @Provides
-        fun providesAddressRepository(context: Context): AddressRepository {
+        fun providesAddressDataBase(context: Context): AddressDataBase {
             return Room.databaseBuilder(context, AddressDataBase::class.java, ADDRESS_ITEM_DATABASE_NAME)
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build()
         }
     }
 
+    @Singleton
     @Binds
-    abstract fun bindsWidgetProperties(mockWidgetProperties: MockWidgetProperties): WidgetProperties
+    abstract fun bindsWidgetProperties(addressDataBase: AddressDataBase): AddressRepository
 
+    @Singleton
     @Binds
-    abstract fun bindsCallHandler(callHandlerImpl: CallHandlerImpl): CallHandler
-
+    abstract fun bindsAddressRepository(addressDataBase: AddressDataBase): WidgetProperties
 }
 
 @Module
