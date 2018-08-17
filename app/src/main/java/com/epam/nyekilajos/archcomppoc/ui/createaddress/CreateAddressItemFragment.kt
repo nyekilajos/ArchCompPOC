@@ -1,5 +1,6 @@
 package com.epam.nyekilajos.archcomppoc.ui.createaddress
 
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,15 +58,20 @@ class CreateAddressItemFragment : DaggerFragmentWithViewModel() {
                             navController.navigateUp()
                         },
                         onError = { throwable ->
-                            if (throwable is InvalidAddressException) {
-                                val message = when (throwable.error) {
-                                    CreateAddressViewModel.Errors.INVALID_IP_ADDRESS -> getString(R.string.invalid_ip_error)
-                                    CreateAddressViewModel.Errors.INVALID_PORT -> getString(R.string.invalid_port_error)
-                                    CreateAddressViewModel.Errors.INVALID_NAME -> getString(R.string.invalid_name_error)
-                                    else -> null
-                                } ?: throwable.localizedMessage
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                            }
+                            val message: String = (throwable as? InvalidAddressException?)
+                                    ?.let {
+                                        when (it.error) {
+                                            CreateAddressViewModel.Errors.INVALID_IP_ADDRESS -> getString(R.string.invalid_ip_error)
+                                            CreateAddressViewModel.Errors.INVALID_PORT -> getString(R.string.invalid_port_error)
+                                            CreateAddressViewModel.Errors.EMPTY_NAME -> getString(R.string.empty_name_error)
+                                            else -> null
+                                        }
+                                    } ?: (throwable as? SQLiteConstraintException?)
+                                    ?.let {
+                                        getString(R.string.name_already_used_error)
+                                    } ?: throwable.localizedMessage
+
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         })
     }
 }

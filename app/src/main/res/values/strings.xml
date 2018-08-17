@@ -18,5 +18,7 @@
 
     <string name="invalid_ip_error">Invalid IP address. Please provide a valid one.</string>
     <string name="invalid_port_error">Invalid port. Please provide a valid one.</string>
-    <string name="invalid_name_error">Name should not be empty</string>
+    <string name="empty_name_error">Name should not be empty</string>
+    <string name="name_already_used_error">You already have an address with this name. Please choose a unique one.</string>
+
 </resources>

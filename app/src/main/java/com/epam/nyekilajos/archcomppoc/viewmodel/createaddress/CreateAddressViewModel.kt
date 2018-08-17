@@ -35,7 +35,7 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
                 val validName = if (name.value?.isNotEmpty() == true) {
                     name.value!!
                 } else {
-                    throw InvalidAddressException("Name should not be empty", Errors.INVALID_NAME)
+                    throw InvalidAddressException("Name should not be empty", Errors.EMPTY_NAME)
                 }
                 val ip = validateIpAddress(ipAddress.value)
                 val port = validatePort(portText.value)
@@ -49,7 +49,7 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
         }
     }
 
-    enum class Errors { INVALID_NAME, INVALID_IP_ADDRESS, INVALID_PORT, NO_ERROR }
+    enum class Errors { EMPTY_NAME, INVALID_IP_ADDRESS, INVALID_PORT, NO_ERROR }
 }
 
 private fun validateIpAddress(ip: String?): String {

@@ -33,17 +33,19 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
 
     override fun storeAddress(addressItem: AddressItem): Completable {
         return Completable.fromCallable {
+            addressDao().insert(addressItem)
+        }.doOnComplete {
             addressList += addressItem
             subject.onNext(addressList)
-            addressDao().insert(addressItem)
         }.subscribeOn(Schedulers.io())
     }
 
     override fun removeAddress(addressItem: AddressItem): Completable {
         return Completable.fromCallable {
+            addressDao().delete(addressItem)
+        }.doOnComplete {
             addressList -= addressItem
             subject.onNext(addressList)
-            addressDao().delete(addressItem)
         }.subscribeOn(Schedulers.io())
     }
 
@@ -77,7 +79,7 @@ abstract class AddressDao {
     @Query("SELECT * FROM addressItems WHERE name = :name")
     abstract fun getAllAddressByName(name: String): AddressItem
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     abstract fun insert(addressItem: AddressItem)
 
     @Delete
