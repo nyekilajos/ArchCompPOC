@@ -34,7 +34,7 @@ class AddressDataBaseTest {
     @Test
     fun testDatabaseIsEmptyInitially() {
         assertTrue(addressDao.getAllAddressItems().isEmpty())
-        assertNull(addressDao.getAllAddressByName(TEST_ADDRESS_ITEM1.name))
+        assertNull(addressDao.getAddressByName(TEST_ADDRESS_ITEM1.name))
     }
 
     @Test
@@ -43,8 +43,8 @@ class AddressDataBaseTest {
         addressDao.insert(TEST_ADDRESS_ITEM2)
 
         assertThat(addressDao.getAllAddressItems(), equalTo(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
-        assertThat(addressDao.getAllAddressByName(TEST_ADDRESS_ITEM1.name), equalTo(TEST_ADDRESS_ITEM1))
-        assertThat(addressDao.getAllAddressByName(TEST_ADDRESS_ITEM2.name), equalTo(TEST_ADDRESS_ITEM2))
+        assertThat(addressDao.getAddressByName(TEST_ADDRESS_ITEM1.name), equalTo(TEST_ADDRESS_ITEM1))
+        assertThat(addressDao.getAddressByName(TEST_ADDRESS_ITEM2.name), equalTo(TEST_ADDRESS_ITEM2))
     }
 
     @Test(expected = SQLiteConstraintException::class)

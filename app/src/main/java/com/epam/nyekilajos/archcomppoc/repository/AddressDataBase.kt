@@ -51,7 +51,7 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
 
     override fun getWidgetSettings(appWidgetId: Int): Maybe<AddressItem> {
         return Maybe.fromCallable {
-            addressDao().getAllAddressByName(
+            addressDao().getAddressByName(
                     widgetPropertiesDao().getAddressNameForId(appWidgetId)
                             ?: throw createExceptionForMissingWidgetProperty(appWidgetId)
             )
@@ -82,7 +82,7 @@ abstract class AddressDao {
     abstract fun getAllAddressItems(): List<AddressItem>
 
     @Query("SELECT * FROM addressItems WHERE name = :name")
-    abstract fun getAllAddressByName(name: String): AddressItem?
+    abstract fun getAddressByName(name: String): AddressItem?
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     abstract fun insert(addressItem: AddressItem)
