@@ -80,7 +80,7 @@ fun setSelectedItem(spinner: Spinner, item: Any?, inverseBindingListener: Invers
 @InverseBindingAdapter(attribute = "selectedItem", event = "selectedItemAttrChanged")
 fun captureValue(spinner: Spinner): Any? = spinner.selectedItem
 
-@BindingAdapter(value = "itemTouchCallback")
+@BindingAdapter("itemTouchCallback")
 fun setItemTouchCallback(recyclerView: RecyclerView, itemTouchCallback: ItemTouchHelper.Callback) {
     ItemTouchHelper(itemTouchCallback).attachToRecyclerView(recyclerView)
 }
