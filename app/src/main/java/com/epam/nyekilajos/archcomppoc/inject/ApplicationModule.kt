@@ -7,6 +7,9 @@ import androidx.room.Room
 import com.epam.nyekilajos.archcomppoc.ArchCompApplication
 import com.epam.nyekilajos.archcomppoc.MainActivity
 import com.epam.nyekilajos.archcomppoc.repository.*
+import com.epam.nyekilajos.archcomppoc.service.CallHandler
+import com.epam.nyekilajos.archcomppoc.service.CallHandlerService
+import com.epam.nyekilajos.archcomppoc.service.CallHandlerWithHttpUrlConnection
 import com.epam.nyekilajos.archcomppoc.ui.adresslist.AddressListFragment
 import com.epam.nyekilajos.archcomppoc.ui.appwidget.CallAddressAppWidgetProvider
 import com.epam.nyekilajos.archcomppoc.ui.appwidget.ConfigureWidgetActivity
@@ -49,6 +52,9 @@ abstract class ApplicationModule {
     @Singleton
     @Binds
     abstract fun bindsAddressRepository(addressDataBase: AddressDataBase): WidgetProperties
+
+    @Binds
+    abstract fun bindsCallHandler(callHandlerWithHttpUrlConnection: CallHandlerWithHttpUrlConnection): CallHandler
 }
 
 @Module
@@ -76,6 +82,13 @@ abstract class BroadcastReceiverModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCallAddressAppWidgetProviderInjector(): CallAddressAppWidgetProvider
+}
+
+@Module
+abstract class ServiceModule {
+
+    @ContributesAndroidInjector
+    abstract fun contributeCallHandlerServiceInjector(): CallHandlerService
 }
 
 @Module
@@ -107,6 +120,7 @@ abstract class ViewModelBuilder {
     ActivityModule::class,
     FragmentModule::class,
     BroadcastReceiverModule::class,
+    ServiceModule::class,
     ViewModelBuilder::class
 ])
 interface AppComponent : AndroidInjector<ArchCompApplication> {
