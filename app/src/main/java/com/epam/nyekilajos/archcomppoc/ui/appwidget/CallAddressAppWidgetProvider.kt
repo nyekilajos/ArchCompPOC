@@ -62,8 +62,7 @@ fun setupRemoteViews(context: Context, addressItem: AddressItem, appWidgetId: In
             context,
             0,
             Intent(context, CallHandlerService::class.java).apply {
-                putExtra(CallHandlerService.EXTRA_IP_ADDRESS, addressItem.ipAddress)
-                putExtra(CallHandlerService.EXTRA_PORT, addressItem.port)
+                putExtra(CallHandlerService.EXTRA_ADDRESS_ITEM, addressItem)
             },
             PendingIntent.FLAG_UPDATE_CURRENT)
 
