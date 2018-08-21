@@ -51,7 +51,10 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
 
     override fun getWidgetSettings(appWidgetId: Int): Maybe<AddressItem> {
         return Maybe.fromCallable {
-            addressDao().getAllAddressByName(widgetPropertiesDao().getAddressNameForId(appWidgetId))
+            addressDao().getAllAddressByName(
+                    widgetPropertiesDao().getAddressNameForId(appWidgetId)
+                            ?: throw createExceptionForMissingWidgetProperty(appWidgetId)
+            )
         }
     }
 
@@ -64,10 +67,12 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
     override fun delete(appWidgetId: Int): Completable {
         return Completable.fromCallable {
             widgetPropertiesDao().run {
-                delete(getSelectedAddressItemForId(appWidgetId))
+                delete(getSelectedAddressItemForId(appWidgetId) ?: throw createExceptionForMissingWidgetProperty(appWidgetId))
             }
         }
     }
+
+    private fun createExceptionForMissingWidgetProperty(appWidgetId: Int) = NoSuchElementException("No such element exists for id: $appWidgetId ")
 }
 
 @Dao
@@ -77,7 +82,7 @@ abstract class AddressDao {
     abstract fun getAllAddressItems(): List<AddressItem>
 
     @Query("SELECT * FROM addressItems WHERE name = :name")
-    abstract fun getAllAddressByName(name: String): AddressItem
+    abstract fun getAllAddressByName(name: String): AddressItem?
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     abstract fun insert(addressItem: AddressItem)
@@ -90,10 +95,10 @@ abstract class AddressDao {
 abstract class WidgetPropertiesDao {
 
     @Query("SELECT address_id FROM selectedAddressItems WHERE id = :appWidgetId")
-    abstract fun getAddressNameForId(appWidgetId: Int): String
+    abstract fun getAddressNameForId(appWidgetId: Int): String?
 
     @Query("SELECT * FROM selectedAddressItems WHERE id = :appWidgetId")
-    abstract fun getSelectedAddressItemForId(appWidgetId: Int): SelectedAddressItem
+    abstract fun getSelectedAddressItemForId(appWidgetId: Int): SelectedAddressItem?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(selectedAddressItem: SelectedAddressItem)

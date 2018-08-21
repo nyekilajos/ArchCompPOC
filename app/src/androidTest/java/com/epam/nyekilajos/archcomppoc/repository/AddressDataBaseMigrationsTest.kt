@@ -1,11 +1,10 @@
-package com.epam.nyekilajos.archcomppoc
+package com.epam.nyekilajos.archcomppoc.repository
 
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.epam.nyekilajos.archcomppoc.repository.*
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
