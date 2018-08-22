@@ -26,7 +26,7 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
         Schedulers.io().scheduleDirect {
             if (addressList.isEmpty()) {
                 addressList += addressDao().getAllAddressItems()
-                subject.onNext(addressList)
+                subject.onNext(addressList.toList())
             }
         }
     }
@@ -36,7 +36,7 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
             addressDao().insert(addressItem)
         }.doOnComplete {
             addressList += addressItem
-            subject.onNext(addressList)
+            subject.onNext(addressList.toList())
         }.subscribeOn(Schedulers.io())
     }
 
@@ -45,7 +45,7 @@ abstract class AddressDataBase : RoomDatabase(), AddressRepository, WidgetProper
             addressDao().delete(addressItem)
         }.doOnComplete {
             addressList -= addressItem
-            subject.onNext(addressList)
+            subject.onNext(addressList.toList())
         }.subscribeOn(Schedulers.io())
     }
 

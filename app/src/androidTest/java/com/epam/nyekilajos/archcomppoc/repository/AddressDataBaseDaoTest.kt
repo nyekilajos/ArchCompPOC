@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AddressDataBaseTest {
+class AddressDataBaseDaoTest {
 
     private lateinit var addressDataBase: AddressDataBase
     private lateinit var addressDao: AddressDao
