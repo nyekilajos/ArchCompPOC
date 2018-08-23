@@ -9,6 +9,7 @@ buildscript {
     ext.ktx_version = "1.0.0-rc01"
     ext.constraint_layout_version = "2.0.0-alpha2"
     ext.appcompat_version = "1.0.0-rc01"
+    ext.core_testing_version = "2.0.0-rc01"
     ext.dagger_version = "2.16"
 
     repositories {
