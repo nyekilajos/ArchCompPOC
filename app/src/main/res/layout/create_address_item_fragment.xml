@@ -42,6 +42,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/TextAppearance.MaterialComponents.Body1"
+                android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/address_name"
@@ -70,6 +71,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/TextAppearance.MaterialComponents.Body1"
+                android:id="@+id/ip_address_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ip_address"
@@ -88,6 +90,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/TextAppearance.MaterialComponents.Body1"
+                android:id="@+id/port_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/Port"
@@ -101,6 +104,7 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/TextAppearance.MaterialComponents.Button"
+            android:id="@+id/create_address_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_large"

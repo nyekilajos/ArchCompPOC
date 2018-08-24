@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
     buildTypes {
         release {
@@ -31,6 +32,9 @@ android {
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/room/schema".toString())
+    }
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
 
@@ -74,8 +78,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1'
     testImplementation "androidx.arch.core:core-testing:$core_testing_version"
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation "androidx.room:room-testing:$room_version"
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$nav_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.test:runner:$android_test_version"
+    androidTestImplementation "androidx.test:rules:$android_test_version"
+    androidTestImplementation "androidx.test:runner:$android_test_version"
+    androidTestUtil "androidx.test:orchestrator:$android_test_version"
 }

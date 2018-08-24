@@ -11,13 +11,15 @@ buildscript {
     ext.appcompat_version = "1.0.0-rc01"
     ext.core_testing_version = "2.0.0-rc01"
     ext.dagger_version = "2.16"
+    ext.espresso_version = "3.1.0-alpha4"
+    ext.android_test_version = "1.1.0-alpha4"
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta05'
+        classpath 'com.android.tools.build:gradle:3.2.0-rc01'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
