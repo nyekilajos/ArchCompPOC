@@ -2,14 +2,14 @@
 
 buildscript {
 
-    ext.kotlin_version = '1.2.60'
+    ext.kotlin_version = '1.2.71'
     ext.nav_version = "1.0.0-alpha05"
     ext.room_version = "2.0.0-rc01"
-    ext.lifecycle_version = "2.0.0-rc01"
-    ext.ktx_version = "1.0.0-rc01"
+    ext.lifecycle_version = "2.0.0"
+    ext.ktx_version = "1.0.0"
     ext.constraint_layout_version = "2.0.0-alpha2"
-    ext.appcompat_version = "1.0.0-rc01"
-    ext.core_testing_version = "2.0.0-rc01"
+    ext.appcompat_version = "1.0.0"
+    ext.core_testing_version = "2.0.0"
     ext.dagger_version = "2.16"
     ext.espresso_version = "3.1.0-alpha4"
     ext.android_test_version = "1.1.0-alpha4"
@@ -19,23 +19,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-rc02'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC8"
-}
-
-detekt {
-    version = "1.0.0.RC8"
-    defaultProfile {
-        input = file("app/src/main/java")
-        filters = ".*/resources/.*,.*/build/.*"
-        config = file("detekt-config.yml")
-    }
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC9.2"
 }
 
 allprojects {
