@@ -1,11 +1,11 @@
 package com.epam.nyekilajos.archcomppoc.repository
 
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Flowable
 
 interface AddressRepository {
 
-    fun fetchAddressList(): Observable<List<AddressItem>>
+    fun fetchAddressList(): Flowable<List<AddressItem>>
 
     fun storeAddress(addressItem: AddressItem): Completable
 

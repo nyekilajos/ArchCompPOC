@@ -9,7 +9,7 @@ import com.epam.nyekilajos.archcomppoc.repository.Protocol
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.Flowable
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,12 +35,9 @@ class AbstractAddressViewModelTest {
 
     @Test
     fun listenersShouldBeNotifiedOnInit() {
-        val testSubject = PublishSubject.create<List<AddressItem>>()
-        whenever(repositoryMock.fetchAddressList()).thenReturn(testSubject)
+        whenever(repositoryMock.fetchAddressList()).thenReturn(Flowable.just(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
 
         object : AbstractAddressViewModel(repositoryMock) {}.addressItems.observeForever(addressItemsObserverMock)
-
-        testSubject.onNext(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
 
         verify(addressItemsObserverMock).onChanged(eq(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
     }

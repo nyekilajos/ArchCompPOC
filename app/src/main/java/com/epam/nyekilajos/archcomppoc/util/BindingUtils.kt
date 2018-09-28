@@ -10,8 +10,8 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.epam.nyekilajos.archcomppoc.ui.common.BindableAdapter
 import com.epam.nyekilajos.archcomppoc.ui.common.BindableSpinnerAdapter
 import com.epam.nyekilajos.archcomppoc.ui.common.TitleProvider
 
@@ -27,14 +27,14 @@ fun setItemAnimator(recyclerView: RecyclerView, animator: RecyclerView.ItemAnima
 
 @BindingAdapter(value = ["adapter", "layoutManager", "data"], requireAll = false)
 @Suppress("UNCHECKED_CAST")
-fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>?, layoutManager: RecyclerView.LayoutManager?, data: T?) {
+fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, adapter: ListAdapter<T, *>?, layoutManager: RecyclerView.LayoutManager?, data: List<T>?) {
     if (adapter != null) {
         recyclerView.adapter = adapter
     }
     if (layoutManager != null) {
         recyclerView.layoutManager = layoutManager
-        if (data != null && recyclerView.adapter is BindableAdapter<*>) {
-            (recyclerView.adapter as BindableAdapter<T>).setData(data)
+        if (data != null) {
+            (recyclerView.adapter as ListAdapter<T, *>?)?.submitList(data)
         }
     }
 }

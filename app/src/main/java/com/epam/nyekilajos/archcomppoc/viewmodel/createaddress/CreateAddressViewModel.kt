@@ -7,6 +7,7 @@ import com.epam.nyekilajos.archcomppoc.repository.AddressRepository
 import com.epam.nyekilajos.archcomppoc.repository.Protocol
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.net.InetAddress
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -24,7 +25,9 @@ class CreateAddressViewModel @Inject constructor(private val repository: Address
     fun createAddress(): Completable {
         return validateValuesAndCreate()
                 .flatMapCompletable {
-                    repository.storeAddress(it)
+                    repository
+                            .storeAddress(it)
+                            .subscribeOn(Schedulers.io())
                 }
     }
 

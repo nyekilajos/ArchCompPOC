@@ -6,7 +6,8 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +34,7 @@ class AddressDataBaseDaoTest {
 
     @Test
     fun testDatabaseIsEmptyInitially() {
-        assertTrue(addressDao.getAllAddressItems().isEmpty())
+        addressDao.getAllAddressItems().test().assertEmpty()
         assertNull(addressDao.getAddressByName(TEST_ADDRESS_ITEM1.name))
     }
 
@@ -42,7 +43,7 @@ class AddressDataBaseDaoTest {
         addressDao.insert(TEST_ADDRESS_ITEM1)
         addressDao.insert(TEST_ADDRESS_ITEM2)
 
-        assertThat(addressDao.getAllAddressItems(), equalTo(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
+        addressDao.getAllAddressItems().test().assertValue(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
         assertThat(addressDao.getAddressByName(TEST_ADDRESS_ITEM1.name), equalTo(TEST_ADDRESS_ITEM1))
         assertThat(addressDao.getAddressByName(TEST_ADDRESS_ITEM2.name), equalTo(TEST_ADDRESS_ITEM2))
     }
@@ -58,11 +59,10 @@ class AddressDataBaseDaoTest {
         addressDao.insert(TEST_ADDRESS_ITEM1)
         addressDao.insert(TEST_ADDRESS_ITEM2)
 
-        assertThat(addressDao.getAllAddressItems(), equalTo(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
-
         addressDao.delete(TEST_ADDRESS_ITEM1)
 
-        assertThat(addressDao.getAllAddressItems(), equalTo(listOf(TEST_ADDRESS_ITEM2)))
+        addressDao.getAllAddressItems().test().assertValues(listOf(TEST_ADDRESS_ITEM2))
+
     }
 
     @Test

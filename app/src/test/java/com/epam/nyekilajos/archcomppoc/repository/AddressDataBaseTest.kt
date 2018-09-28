@@ -3,8 +3,8 @@ package com.epam.nyekilajos.archcomppoc.repository
 import com.epam.nyekilajos.archcomppoc.RxImmediateSchedulerRule
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Flowable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,36 +37,11 @@ class AddressDataBaseTest {
 
     @Test
     fun fetchAddressListShouldReturnAddresses() {
-        whenever(addressDaoMock.getAllAddressItems()).thenReturn(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
+        whenever(addressDaoMock.getAllAddressItems()).thenReturn(Flowable.just(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
 
         sut.fetchAddressList()
                 .test()
                 .assertValue(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
-    }
-
-    @Test
-    fun fetchAddressListLoadsTheAddressesOnlyOnce() {
-        whenever(addressDaoMock.getAllAddressItems()).thenReturn(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
-
-        sut.fetchAddressList()
-
-        verify(addressDaoMock).getAllAddressItems()
-
-        sut.fetchAddressList()
-                .test()
-                .assertValue(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
-
-        verifyNoMoreInteractions(addressDaoMock)
-    }
-
-    @Test
-    fun storeAddressShouldNotifyListenersForTheAddressList() {
-        whenever(addressDaoMock.getAllAddressItems()).thenReturn(listOf(TEST_ADDRESS_ITEM1))
-        val testObserver = sut.fetchAddressList().test()
-
-        sut.storeAddress(TEST_ADDRESS_ITEM2).test().assertComplete()
-
-        testObserver.assertValues(listOf(TEST_ADDRESS_ITEM1), listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
     }
 
     @Test
@@ -74,16 +49,6 @@ class AddressDataBaseTest {
         sut.storeAddress(TEST_ADDRESS_ITEM2).test().assertComplete()
 
         verify(addressDaoMock).insert(eq(TEST_ADDRESS_ITEM2))
-    }
-
-    @Test
-    fun removeAddressShouldNotifyListenersForTheAddressList() {
-        whenever(addressDaoMock.getAllAddressItems()).thenReturn(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2))
-        val testObserver = sut.fetchAddressList().test()
-
-        sut.removeAddress(TEST_ADDRESS_ITEM1).test().assertComplete()
-
-        testObserver.assertValues(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2), listOf(TEST_ADDRESS_ITEM2))
     }
 
     @Test

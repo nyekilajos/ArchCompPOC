@@ -1,62 +1,40 @@
 package com.epam.nyekilajos.archcomppoc.ui.adresslist
 
-import android.content.Context
 import android.graphics.Canvas
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.epam.nyekilajos.archcomppoc.databinding.AddressItemBinding
 import com.epam.nyekilajos.archcomppoc.repository.AddressItem
-import com.epam.nyekilajos.archcomppoc.ui.common.BindableAdapter
 import com.epam.nyekilajos.archcomppoc.viewmodel.addresslist.AddressListViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 class AddressAdapter(
-        private val context: Context,
         private val viewModel: AddressListViewModel
-) : RecyclerView.Adapter<AddressViewHolder>(), BindableAdapter<List<AddressItem>>, RecyclerItemTouchHelperListener {
+) : ListAdapter<AddressItem, AddressViewHolder>(addressItemsDiffCallback), RecyclerItemTouchHelperListener {
 
     val itemTouchCallback = SwipeToDismissTouchHelper(this)
 
-    private val addressItems: MutableList<AddressItem> = mutableListOf()
-
-    override fun setData(items: List<AddressItem>) {
-        addressItems += items
-        notifyDataSetChanged()
-    }
-
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
-        val item = addressItems[position]
-        addressItems -= item
-        notifyItemRemoved(position)
-        viewModel.removeAddressItem(item)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onComplete = {
-                            addressItems
-                        },
-                        onError = {
-                            Toast.makeText(context, "Failed to delete address: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
-                            addressItems.add(position, item)
-                            notifyItemInserted(position)
-                        }
-                )
+        viewModel.removeAddressItem(getItem(position))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
         return AddressViewHolder(AddressItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getItemCount(): Int = addressItems.size
-
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
-        holder.bind(addressItems[position])
+        holder.bind(getItem(position))
     }
+}
+
+private val addressItemsDiffCallback = object : DiffUtil.ItemCallback<AddressItem>() {
+
+    override fun areItemsTheSame(oldItem: AddressItem, newItem: AddressItem): Boolean = oldItem.name == newItem.name
+
+    override fun areContentsTheSame(oldItem: AddressItem, newItem: AddressItem): Boolean = oldItem == newItem
 }
 
 class AddressViewHolder(val addressItemBinding: AddressItemBinding) : RecyclerView.ViewHolder(addressItemBinding.root) {

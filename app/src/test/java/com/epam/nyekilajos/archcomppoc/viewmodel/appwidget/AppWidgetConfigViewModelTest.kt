@@ -6,7 +6,7 @@ import com.epam.nyekilajos.archcomppoc.repository.*
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +35,7 @@ class AppWidgetConfigViewModelTest {
 
     @Before
     fun setUp() {
-        whenever(addressRepositoryMock.fetchAddressList()).thenReturn(Observable.just(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
+        whenever(addressRepositoryMock.fetchAddressList()).thenReturn(Flowable.just(listOf(TEST_ADDRESS_ITEM1, TEST_ADDRESS_ITEM2)))
         sut = AppWidgetConfigViewModel(widgetPropertiesMock, addressRepositoryMock)
     }
 

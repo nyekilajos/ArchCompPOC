@@ -8,7 +8,8 @@ import com.epam.nyekilajos.archcomppoc.repository.Protocol
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.Observable
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +32,8 @@ class AddressListViewModelTest {
 
     @Test
     fun removeAddressItemShouldCallRepository() {
-        whenever(repositoryMock.fetchAddressList()).thenReturn(Observable.empty())
+        whenever(repositoryMock.fetchAddressList()).thenReturn(Flowable.empty())
+        whenever(repositoryMock.removeAddress(eq(TEST_ADDRESS_ITEM1))).thenReturn(Completable.complete())
 
         AddressListViewModel(repositoryMock).removeAddressItem(TEST_ADDRESS_ITEM1)
 

@@ -35,7 +35,6 @@ abstract class ApplicationModule {
         @Provides
         fun providesContext(application: ArchCompApplication): Context = application.applicationContext
 
-        @Singleton
         @JvmStatic
         @Provides
         fun providesAddressDataBase(context: Context): AddressDataBase {
