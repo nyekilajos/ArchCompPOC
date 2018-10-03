@@ -11,6 +11,7 @@ jobs:
       - run:
           name: Build debug APK and release APK
           command: |
+            chmod 777 gradlew
             ./gradlew clean
             ./gradlew check
       - store_test_results:
