@@ -1,6 +1,7 @@
 package com.epam.nyekilajos.archcomppoc.repository
 
 import android.database.sqlite.SQLiteConstraintException
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -9,11 +10,16 @@ import org.junit.After
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class AddressDataBaseDaoTest {
+
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
 
     private lateinit var addressDataBase: AddressDataBase
     private lateinit var addressDao: AddressDao
@@ -34,7 +40,7 @@ class AddressDataBaseDaoTest {
 
     @Test
     fun testDatabaseIsEmptyInitially() {
-        addressDao.getAllAddressItems().test().assertEmpty()
+        addressDao.getAllAddressItems().test().assertValue(listOf())
         assertNull(addressDao.getAddressByName(TEST_ADDRESS_ITEM1.name))
     }
 

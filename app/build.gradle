@@ -93,8 +93,10 @@ dependencies {
     androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$nav_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$core_testing_version"
     androidTestImplementation "androidx.test:runner:$android_test_version"
     androidTestImplementation "androidx.test:rules:$android_test_version"
     androidTestImplementation "androidx.test:runner:$android_test_version"
+
     androidTestUtil "androidx.test:orchestrator:$android_test_version"
 }
